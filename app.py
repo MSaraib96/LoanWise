@@ -165,7 +165,7 @@ with st.sidebar:
         f'<div class="lw-sideblock lw-sidestatus">{status}'
         f'<div class="lw-sidenote"><strong>{len(catalog)} expert rules</strong><br>'
         '3 lending products · 7 priority decision gates · Explainable proof trace</div>'
-        '<div class="lw-sideversion">v1.0 · Academic demonstration · PKR</div></div>',
+        '<div class="lw-sideversion"></div></div>',
         unsafe_allow_html=True,
     )
 
