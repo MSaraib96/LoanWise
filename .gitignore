@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.log
+.env
+.streamlit/secrets.toml
+/VIVA_GUIDE.md
+/PROJECT_REPORT.md
