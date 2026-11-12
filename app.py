@@ -14,6 +14,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from loanwise.diagnosis import diagnose
 from loanwise.engine import (
     ExpertSystemError, assess, engine_available, money, rule_catalog, sample_case,
 )
@@ -78,12 +79,12 @@ def score_chart(scores: dict) -> go.Figure:
     values = [scores[key] for key in keys]
     colors = ["#BDF38B" if value >= 80 else "#F2C477" if value >= 60 else "#E58F98" for value in values]
     fig = go.Figure(go.Bar(x=values[::-1], y=labels[::-1], orientation="h",
-                           text=[f"{n}/100" for n in values[::-1]], textposition="outside",
+                           text=[f"{n}/100" for n in values[::-1]], textposition="outside", cliponaxis=False,
                            marker=dict(color=colors[::-1], line=dict(width=0))))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                       font=dict(family="DM Sans, Arial", color="#B6C6D8", size=13),
-                      margin=dict(l=5, r=52, t=12, b=5), height=315, showlegend=False,
-                      xaxis=dict(range=[0, 112], showticklabels=False, showgrid=True,
+                      margin=dict(l=5, r=75, t=12, b=5), height=315, showlegend=False,
+                      xaxis=dict(range=[0, 100], showticklabels=False, showgrid=True,
                                  gridcolor="#29374A", zeroline=False),
                       yaxis=dict(showgrid=False, tickfont=dict(size=13)))
     return fig
@@ -115,6 +116,28 @@ def rule_cards(rules: list[dict]) -> None:
             f'<div class="meta">{esc(r["category"])} · {esc(r["severity"])}</div></div>',
             unsafe_allow_html=True,
         )
+
+
+def diagnosis_panel(result: dict) -> None:
+    findings = diagnose(result)
+    if not findings:
+        st.markdown('<div class="lw-diag-ok"><strong>No problems diagnosed.</strong> The knowledge base raised no critical '
+                    'or cautionary findings for this applicant.</div>', unsafe_allow_html=True)
+        return
+    issues = [i for f in findings for i in f["issues"]]
+    critical = sum(i["severity"] == "critical" for i in issues)
+    summary = (f'<div class="lw-diag-summary"><div class="lw-overline">DIAGNOSIS SUMMARY</div>'
+               f'<div class="big">{critical} critical · {len(issues) - critical} cautionary findings</div>'
+               f'<div class="little">Across {len(findings)} area{"s" if len(findings) != 1 else ""}. '
+               f'Largest problem area: <strong>{esc(findings[0]["area"])}</strong>.</div></div>')
+    cards = []
+    for f in findings:
+        items = "".join(f'<li><span class="rid">{esc(i["id"])}</span>{esc(i["explanation"])}</li>' for i in f["issues"])
+        fixes = "".join(f'<li><span class="rid">{esc(r["id"])}</span>{esc(r["explanation"])}</li>' for r in f["remedies"])
+        fix_html = f'<div class="fix"><div class="fixh">Suggested remedy</div><ul>{fixes}</ul></div>' if fixes else ""
+        cards.append(f'<div class="lw-diag-card {esc(f["severity"])}"><div class="head"><span>{esc(f["area"])}</span>'
+                     f'<em>{esc(f["severity"])}</em></div><ul>{items}</ul>{fix_html}</div>')
+    st.markdown(summary + f'<div class="lw-diag-grid">{"".join(cards)}</div>', unsafe_allow_html=True)
 
 
 def show_recommendations(result: dict) -> None:
@@ -269,6 +292,8 @@ with intelligence:
             st.markdown("#### Income allocation")
             st.caption("Modelled affordability assuming fixed monthly installments and the declared income.")
             st.plotly_chart(affordability_chart(case,result),use_container_width=True,config={"displayModeBar":False})
+        section("Diagnosis", "Problems the knowledge base identified for this applicant, grouped by area, with the evidence rules and the matching remedy.", "PROBLEM IDENTIFICATION")
+        diagnosis_panel(result)
         x,y = st.columns([1,1],gap="large")
         with x:
             st.markdown("#### Decision support · next steps")

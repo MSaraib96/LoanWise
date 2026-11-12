@@ -10,6 +10,8 @@
 | --- | --- |
 | Knowledge-based **expert system** | SWI-Prolog knowledge base (`prolog/loanwise.pl`) |
 | At least 50 meaningful Prolog rules | **68 distinct rules**; 61 diagnostic/recommendation rules + 7 priority decisions |
+| Inferencing | 68 Prolog rules; every applicable rule fires, the first matching decision gate wins, and the full rule trace is returned |
+| Diagnosis | Critical and cautionary findings from the knowledge base, grouped into six problem areas with the evidence rules and the matching remedy (Decision intelligence → Diagnosis) |
 | Decision Support System (DSS) | Affordability, six-factor risk, explanations, recommendations, cross-product comparison, what-if scenario engine |
 | Decision Making System (DMS) | Seven mutually exclusive, prioritized Prolog decision gates → `approved`, `manual_review`, `rejected` |
 | Frontend | Responsive, styled Python Streamlit dashboard with Plotly analytics |
@@ -97,11 +99,13 @@ LoanWise/
 │   └── style.css                # Custom responsive design system
 ├── loanwise/
 │   ├── __init__.py
+│   ├── diagnosis.py            # Groups fired rules into problem areas and remedies
 │   └── engine.py               # Validated, isolated SWI-Prolog JSON bridge
 ├── prolog/
 │   └── loanwise.pl             # Authoritative expert knowledge base (68 rules)
 ├── tests/
-│   └── test_engine.py          # Validation, bridge and real-inference acceptance tests
+│   ├── test_engine.py          # Validation, bridge and real-inference acceptance tests
+│   └── test_diagnosis.py       # Diagnosis grouping, including real-Prolog checks
 ├── .streamlit/config.toml
 ├── requirements.txt            # Python packages (Streamlit Cloud installs these)
 ├── packages.txt                # System packages: SWI-Prolog for Streamlit Cloud

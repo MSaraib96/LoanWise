@@ -118,5 +118,22 @@ hr{border-color:#27374D!important}
 .lw-sidenote strong{font-size:var(--fs-sm)}
 .lw-sidenote strong{color:#E8F6E2}
 .lw-foot{color:#71869D;font-size:var(--fs-xs);border-top:1px solid #24374B;padding-top:19px;margin-top:42px}
+.lw-diag-summary{border:1px solid #354456;border-radius:16px;background:linear-gradient(100deg,#19283A,#162336);padding:18px 22px;margin:6px 0 14px}
+.lw-diag-summary .lw-overline{margin:0 0 4px}
+.lw-diag-summary .big{font:700 var(--fs-lg) var(--fs-display);margin:2px 0 4px;color:#F4F9FF}
+.lw-diag-summary .little{font-size:var(--fs-sm);color:#AEC0CF}
+.lw-diag-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-bottom:18px}
+.lw-diag-card{border:1px solid #2C3B4F;border-left:4px solid #F2C477;background:#111C2C;border-radius:14px;padding:15px 17px}
+.lw-diag-card.critical{border-left-color:#E58F98}
+.lw-diag-card .head{display:flex;justify-content:space-between;align-items:center;gap:10px;font:700 var(--fs-base) var(--fs-display);color:#EDF4FF;margin-bottom:9px}
+.lw-diag-card .head em{font:800 var(--fs-micro) var(--fs-body);font-style:normal;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:#403324;color:#FFDB8C;white-space:nowrap}
+.lw-diag-card.critical .head em{background:#402127;color:#FF9EA5}
+.lw-diag-card ul{margin:0;padding:0;list-style:none}
+.lw-diag-card li{font-size:var(--fs-sm);line-height:1.5;color:#CEDBEC;margin:0 0 6px;padding:0}
+.lw-diag-card .rid{font-weight:800;color:#BCF27F;font-size:var(--fs-xs);letter-spacing:.04em;margin-right:7px}
+.lw-diag-card .fix{margin-top:10px;padding-top:10px;border-top:1px dashed #33465C}
+.lw-diag-card .fixh{font:800 var(--fs-micro) var(--fs-body);letter-spacing:.14em;text-transform:uppercase;color:#8FDBA4;margin-bottom:6px}
+.lw-diag-ok{border:1px solid #314C49;background:#11292194;border-left:3px solid #BDF47E;border-radius:9px;padding:12px 15px;font-size:var(--fs-sm);color:#C9DDCE;margin:9px 0}
+@media(max-width:950px){.lw-diag-grid{grid-template-columns:1fr}}
 @media(max-width:950px){.lw-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.lw-hero{padding:26px 23px}}
 @media(max-width:550px){:root{--fs-2xl:24px;--fs-xl:20px}.lw-kpis{grid-template-columns:1fr}.lw-hero-title{font-size:34px}.lw-hero{padding:24px 20px}.block-container{padding-left:15px!important;padding-right:15px!important}.lw-banner{padding:17px}}
