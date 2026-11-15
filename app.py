@@ -233,7 +233,7 @@ with application:
             st.number_input("Existing monthly repayments (PKR)",min_value=0.0,max_value=10_000_000.0,step=2_500.0,format="%.0f",key="debt")
             st.number_input("Late payments (past 12 months)",min_value=0,max_value=12,step=1,key="late_payments")
         with c:
-            st.number_input("Illustrative credit score (300–850)",min_value=300,max_value=850,step=5,key="credit_score")
+            st.number_input("Credit score (300–850)",min_value=300,max_value=850,step=5,key="credit_score")
             st.checkbox("Default recorded in past 24 months",key="recent_default")
         st.markdown("#### Loan request and verification")
         d,e,f = st.columns(3,gap="large")
