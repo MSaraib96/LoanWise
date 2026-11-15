@@ -250,7 +250,7 @@ with application:
             st.checkbox("Government ID available",key="has_id")
             st.checkbox("Income proof available",key="income_proof")
             st.checkbox("Bank statements available",key="bank_statements")
-        st.caption("All inputs are synthetic. Loan policies, rates, and credit scores are illustrative; no bank data or real applicant identity is used.")
+     # st.caption("All inputs are synthetic. Loan policies, rates, and credit scores are illustrative; no bank data or real applicant identity is used.")
         submitted = st.form_submit_button("✦  Run expert assessment", type="primary", use_container_width=True, disabled=not engine_ok)
     if submitted:
         try:
